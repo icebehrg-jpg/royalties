@@ -311,28 +311,6 @@
   }
   .feed-error i{margin-top:.15rem;}
 
-  .feed-alt{
-    display:flex; align-items:center; gap:.7rem; flex-wrap:wrap;
-    background:#fff; border:1px dashed var(--line); border-radius:8px;
-    padding:.7rem 1rem; margin-top:.65rem;
-  }
-  .feed-alt i{font-size:1.15rem; color:var(--brand); flex:none;}
-  .feed-alt-text{display:flex; flex-direction:column; gap:.1rem; flex:1 1 260px; font-size:.78rem; color:var(--ink-soft);}
-  .feed-alt-text strong{color:var(--ink); font-size:.82rem;}
-  .feed-alt-text a{color:var(--brand); font-weight:600;}
-  .feed-upload-btn{margin:0; cursor:pointer; white-space:nowrap;}
-
-  /* ---------- grouping layout ---------- */
-  .grid-produtos-layout{
-    display:grid;
-    grid-template-columns:340px 1fr;
-    gap:1.1rem;
-    align-items:start;
-  }
-  @media (max-width: 900px){
-    .grid-produtos-layout{grid-template-columns:1fr;}
-  }
-
   .empty-state{
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     text-align:center; padding:2.5rem 1rem; color:#a39d8c; min-height:220px;
@@ -360,28 +338,54 @@
   .tag-chip button{border:none; background:none; color:var(--brand); font-size:.7rem; line-height:1; padding:0; opacity:.7;}
   .tag-chip button:hover{opacity:1;}
 
-  /* groups list (left column) */
-  .groups-list{display:flex; flex-direction:column; gap:.5rem;}
-  .group-card{
-    border:1px solid var(--line); border-radius:7px; background:#fff;
-    padding:.6rem .75rem; cursor:pointer; transition:all .12s ease;
-  }
-  .group-card:hover{border-color:var(--brand);}
-  .group-card.active{border-color:var(--brand); background:var(--brand-soft);}
-  .group-card .name{font-size:.86rem; font-weight:700; color:var(--ink);}
-  .group-card .meta{font-size:.72rem; color:#9a9689; margin-top:.15rem;}
-  .group-card .remove-group{
-    float:right; border:none; background:none; color:#b0aa98; font-size:.8rem; padding:0;
-  }
-  .group-card .remove-group:hover{color:var(--warn);}
+  /* ---------- groupings accordion ---------- */
+  .groups-accordion{display:flex; flex-direction:column; gap:.6rem;}
 
-  /* group detail header */
-  .group-detail-head{
-    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.6rem;
-    margin-bottom:1rem;
+  .acc-item{
+    border:1px solid var(--line); border-radius:8px; background:#fff;
+    overflow:hidden; transition:border-color .15s ease;
   }
-  .group-detail-head h3{font-size:1rem; font-weight:700; margin:0;}
-  .group-detail-head .marcas-chips{display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.4rem;}
+  .acc-item.expanded{border-color:var(--brand);}
+  .acc-item.saved .acc-header{background:#fbfaf7;}
+
+  .acc-header{
+    display:flex; align-items:center; gap:.7rem;
+    padding:.75rem 1rem; cursor:pointer; user-select:none;
+  }
+  .acc-chevron{
+    font-size:.8rem; color:#9a9689; flex:none;
+    transition:transform .15s ease;
+  }
+  .acc-item.expanded .acc-chevron{transform:rotate(90deg); color:var(--brand);}
+  .acc-header-main{flex:1 1 auto; min-width:0; display:flex; align-items:baseline; gap:.6rem; flex-wrap:wrap;}
+  .acc-name{font-size:.9rem; font-weight:700; color:var(--ink);}
+  .acc-item:not(.saved) .acc-name{color:#9a9689; font-style:italic;}
+  .acc-meta{font-size:.75rem; color:#9a9689;}
+  .acc-badge-draft{
+    font-size:.66rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em;
+    color:var(--accent); background:var(--accent-soft);
+    padding:.15rem .45rem; border-radius:5px;
+  }
+  .acc-header-actions{display:flex; align-items:center; gap:.35rem; flex:none;}
+  .acc-header-actions button{
+    border:none; background:none; color:#b0aa98; font-size:.85rem;
+    padding:.3rem; border-radius:5px; line-height:1;
+  }
+  .acc-header-actions button:hover{color:var(--ink); background:#f0ede4;}
+  .acc-header-actions .acc-delete:hover{color:var(--warn);}
+
+  .acc-body{
+    border-top:1px solid var(--line);
+    padding:1.1rem 1.1rem 1rem;
+    background:#fbfaf7;
+  }
+
+  .acc-footer{
+    display:flex; align-items:center; justify-content:space-between; gap:.75rem;
+    margin-top:1rem; padding-top:.9rem; border-top:1px dashed var(--line);
+    flex-wrap:wrap;
+  }
+  .acc-error{font-size:.76rem; color:var(--warn); font-weight:600;}
 
   /* product tables */
   .prod-table{width:100%; border-collapse:collapse; font-size:.82rem;}
@@ -909,96 +913,26 @@
                                         <strong>Não foi possível carregar o feed
                                             — nem direto, nem pelos proxies de
                                             contorno de CORS.</strong>
-                                        <div>Use a alternativa abaixo: baixe o
-                                            XML e importe o arquivo — a leitura
-                                            local não depende de rede.</div>
+                                        <div>Tente novamente em alguns
+                                            instantes.</div>
                                     </div>
                                 </div>
-                                <div class="feed-alt">
-                                    <i class="bi bi-file-earmark-arrow-up"></i>
-                                    <div class="feed-alt-text">
-                                        <strong>Alternativa: importar o arquivo
-                                            XML</strong>
-                                        <span>Baixe o feed <a
-                                                href="https://static.kalunga.com.br/Especial/parceiros/googlemerchant/kalunga_datafeed.xml"
-                                                target="_blank"
-                                                rel="noopener">clicando aqui</a>
-                                            (Ctrl/Cmd+S) e selecione o arquivo
-                                            salvo — funciona mesmo se o
-                                            carregamento online falhar.</span>
-                                    </div>
-                                    <label
-                                        class="btn btn-ghost btn-sm feed-upload-btn">
-                                        <i class="bi bi-upload"></i> Selecionar
-                                        arquivo .xml
-                                        <input type="file"
-                                            accept=".xml,text/xml"
-                                            id="feedFileInput"
-                                            onchange="loadFeedFromFile(event)"
-                                            hidden>
-                                    </label>
+
+                                <div
+                                    class="section-divider mt-3">Agrupamentos</div>
+
+                                <div id="groupsAccordion"
+                                    class="groups-accordion">
+                                    <div class="empty-note">Nenhum agrupamento
+                                        ainda</div>
                                 </div>
 
-                                <div class="grid-produtos-layout mt-3">
-
-                                    <!-- COLUNA ESQUERDA: agrupamentos -->
-                                    <div class="block-card">
-                                        <div class="block-card-head">
-                                            <span class="lbl"><i
-                                                    class="bi bi-collection"></i>
-                                                Novo agrupamento</span>
-                                        </div>
-                                        <div class="mb-2">
-                                            <label class="form-label">Nome do
-                                                agrupamento</label>
-                                            <input type="text"
-                                                class="form-control"
-                                                id="novoGrupoNome"
-                                                placeholder="Ex.: Harry Potter">
-                                        </div>
-                                        <div class="mb-2">
-                                            <label class="form-label">Marcas
-                                                associadas</label>
-                                            <div class="tag-input"
-                                                id="novoGrupoTagInput">
-                                                <div class="tag-chips"
-                                                    id="novoGrupoChips"></div>
-                                                <input type="text"
-                                                    placeholder="Digite a marca e Enter"
-                                                    onkeydown="onBrandTagKeydown(event, novoGrupoState, 'novoGrupoChips')">
-                                            </div>
-                                            <div class="field-hint">O nome
-                                                precisa ser idêntico ao campo
-                                                "marca" do feed</div>
-                                        </div>
-                                        <button type="button"
-                                            class="btn btn-brand btn-sm w-100"
-                                            onclick="createGroup()">
-                                            <i class="bi bi-plus-lg"></i> Criar
-                                            agrupamento
-                                        </button>
-
-                                        <div
-                                            class="section-divider">Agrupamentos
-                                            criados</div>
-                                        <div id="groupsList"
-                                            class="groups-list">
-                                            <div class="empty-note">Nenhum
-                                                agrupamento ainda</div>
-                                        </div>
-                                    </div>
-
-                                    <!-- COLUNA DIREITA: detalhe do agrupamento selecionado -->
-                                    <div class="block-card" id="groupDetail">
-                                        <div class="empty-state">
-                                            <i class="bi bi-collection"></i>
-                                            <p>Crie ou selecione um agrupamento
-                                                à esquerda para associar
-                                                produtos do feed</p>
-                                        </div>
-                                    </div>
-
-                                </div>
+                                <button type="button"
+                                    class="btn btn-brand btn-sm mt-3"
+                                    onclick="addNewGroupDraft()">
+                                    <i class="bi bi-plus-lg"></i> Novo
+                                    agrupamento
+                                </button>
 
                             </div>
                         </section>
@@ -1428,8 +1362,8 @@ function refreshLedger(){
   document.querySelectorAll('.year-card[data-year]').forEach(card => recalcYearCheck(card));
 
   // keep the product-grid "% aplicado" column in sync with the FOB/Compra/Venda fields
-  if(typeof renderGroupProductsTable === 'function' && typeof getActiveGroup === 'function' && getActiveGroup()){
-    renderGroupProductsTable();
+  if(typeof groups !== 'undefined' && typeof renderGroupProductsTableFor === 'function'){
+    groups.filter(g => g.expanded).forEach(g => renderGroupProductsTableFor(g.id));
   }
 }
 
@@ -1487,8 +1421,6 @@ let feedLoading = false;
 
 let groups = [];
 let groupSeq = 0;
-let activeGroupId = null;
-const novoGrupoState = { marcas: [] };
 
 function escapeHtml(str){
   const div = document.createElement('div');
@@ -1528,117 +1460,152 @@ function renderTagChips(state, containerId){
   });
 }
 
-// ---- groups (left column) ----
-function createGroup(){
-  const nomeInput = document.getElementById('novoGrupoNome');
-  const nome = nomeInput.value.trim();
-  if(!nome){
-    nomeInput.classList.add('is-invalid');
-    nomeInput.focus();
-    return;
-  }
-  nomeInput.classList.remove('is-invalid');
-  if(novoGrupoState.marcas.length === 0){
-    alert('Adicione ao menos uma marca associada a este agrupamento.');
-    return;
-  }
+// ---- accordion groups ----
+function getGroupById(id){
+  return groups.find(g => g.id === id);
+}
+
+function addNewGroupDraft(){
   groupSeq++;
-  const group = { id: groupSeq, nome, marcas: [...novoGrupoState.marcas], produtos: [] };
-  groups.push(group);
+  groups.unshift({ id: groupSeq, nome: '', marcas: [], produtos: [], saved: false, expanded: true });
+  renderGroupsAccordion();
+  setTimeout(() => document.getElementById('groupName-' + groupSeq)?.focus(), 30);
+}
 
-  nomeInput.value = '';
-  novoGrupoState.marcas = [];
-  renderTagChips(novoGrupoState, 'novoGrupoChips');
+function toggleGroup(id){
+  const g = getGroupById(id);
+  if(!g) return;
+  g.expanded = !g.expanded;
+  renderGroupsAccordion();
+}
 
-  renderGroupsList();
-  selectGroup(group.id);
+function discardGroup(id){
+  groups = groups.filter(g => g.id !== id);
+  renderGroupsAccordion();
 }
 
 function removeGroup(id, ev){
-  ev.stopPropagation();
+  ev && ev.stopPropagation();
+  if(!confirm('Remover este agrupamento e todos os produtos associados a ele?')) return;
   groups = groups.filter(g => g.id !== id);
-  if(activeGroupId === id){
-    activeGroupId = null;
-    renderGroupDetail();
-  }
-  renderGroupsList();
+  renderGroupsAccordion();
 }
 
-function renderGroupsList(){
-  const el = document.getElementById('groupsList');
-  if(!el) return;
-  if(groups.length === 0){
-    el.innerHTML = '<div class="empty-note">Nenhum agrupamento ainda</div>';
+function onGroupNameInput(id, val){
+  const g = getGroupById(id);
+  if(!g) return;
+  g.nome = val;
+  const nameEl = document.querySelector(`.acc-item[data-group-id="${id}"] .acc-name`);
+  if(nameEl) nameEl.textContent = val.trim() || 'Novo agrupamento';
+}
+
+function saveGroupClose(id){
+  const g = getGroupById(id);
+  if(!g) return;
+  const errorEl = document.getElementById('groupError-' + id);
+  const nameInput = document.getElementById('groupName-' + id);
+  if(!g.nome.trim()){
+    errorEl.textContent = 'Informe um nome para o agrupamento.';
+    nameInput.classList.add('is-invalid');
+    nameInput.focus();
     return;
   }
-  el.innerHTML = '';
-  groups.forEach(g => {
-    const card = document.createElement('div');
-    card.className = 'group-card' + (g.id === activeGroupId ? ' active' : '');
-    card.onclick = () => selectGroup(g.id);
-    card.innerHTML = `
-      <button type="button" class="remove-group" title="Remover agrupamento" onclick="removeGroup(${g.id}, event)"><i class="bi bi-x-lg"></i></button>
-      <div class="name">${escapeHtml(g.nome)}</div>
-      <div class="meta">${g.marcas.length} marca(s) · ${g.produtos.length} produto(s)</div>
-    `;
-    el.appendChild(card);
+  if(g.marcas.length === 0){
+    errorEl.textContent = 'Associe ao menos uma marca a este agrupamento.';
+    return;
+  }
+  errorEl.textContent = '';
+  nameInput.classList.remove('is-invalid');
+  g.saved = true;
+  g.expanded = false;
+  renderGroupsAccordion();
+}
+
+function renderGroupsAccordion(){
+  const host = document.getElementById('groupsAccordion');
+  if(!host) return;
+  if(groups.length === 0){
+    host.innerHTML = '<div class="empty-note">Nenhum agrupamento ainda</div>';
+    return;
+  }
+
+  host.innerHTML = groups.map(g => `
+    <div class="acc-item ${g.expanded ? 'expanded' : ''} ${g.saved ? 'saved' : ''}" data-group-id="${g.id}">
+      <div class="acc-header" onclick="toggleGroup(${g.id})">
+        <i class="bi bi-chevron-right acc-chevron"></i>
+        <div class="acc-header-main">
+          <span class="acc-name">${escapeHtml(g.nome) || 'Novo agrupamento'}</span>
+          ${g.saved
+            ? `<span class="acc-meta">${g.marcas.length} marca(s) · ${g.produtos.length} produto(s)</span>`
+            : `<span class="acc-badge-draft">rascunho</span>`}
+        </div>
+        <div class="acc-header-actions">
+          <button type="button" onclick="event.stopPropagation(); toggleGroup(${g.id})" title="${g.expanded ? 'Recolher' : 'Editar'}">
+            <i class="bi bi-${g.expanded ? 'dash-lg' : 'pencil'}"></i>
+          </button>
+          <button type="button" class="acc-delete" onclick="removeGroup(${g.id}, event)" title="Remover">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+      </div>
+      ${g.expanded ? `
+      <div class="acc-body">
+        <div class="row g-3 mb-3">
+          <div class="col-sm-6">
+            <label class="form-label req">Nome do agrupamento</label>
+            <input type="text" class="form-control" id="groupName-${g.id}" value="${escapeHtml(g.nome)}" placeholder="Ex.: Harry Potter" oninput="onGroupNameInput(${g.id}, this.value)">
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label req">Marcas associadas</label>
+            <div class="tag-input">
+              <div class="tag-chips" id="groupChips-${g.id}"></div>
+              <input type="text" placeholder="Digite a marca e Enter">
+            </div>
+            <div class="field-hint">Precisa ser idêntico ao campo "marca" do feed</div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+          <span class="field-hint mb-0">Busque no feed os produtos dessas marcas para incluir na lista</span>
+          <button type="button" class="btn btn-brand btn-sm" onclick="searchFeedForGroup(${g.id})">
+            <i class="bi bi-search"></i> Buscar produtos no feed
+          </button>
+        </div>
+        <div id="groupSearchResults-${g.id}"></div>
+
+        <div class="section-divider">Produtos no agrupamento</div>
+        <div id="groupProductsTable-${g.id}"></div>
+
+        <div class="acc-footer">
+          <span class="acc-error" id="groupError-${g.id}"></span>
+          <div class="d-flex gap-2">
+            ${!g.saved ? `<button type="button" class="btn btn-ghost btn-sm" onclick="discardGroup(${g.id})">Descartar</button>` : ''}
+            <button type="button" class="btn btn-brand btn-sm" onclick="saveGroupClose(${g.id})">
+              <i class="bi bi-check2"></i> Salvar agrupamento
+            </button>
+          </div>
+        </div>
+      </div>` : ''}
+    </div>
+  `).join('');
+
+  // wire up brand-tag chips + input for every expanded item
+  groups.filter(g => g.expanded).forEach(g => {
+    renderTagChips(g, 'groupChips-' + g.id);
+    const item = document.querySelector(`.acc-item[data-group-id="${g.id}"]`);
+    const tagInput = item?.querySelector('.tag-input input');
+    if(tagInput) tagInput.onkeydown = (e) => onBrandTagKeydown(e, g, 'groupChips-' + g.id);
+    renderGroupProductsTableFor(g.id);
+    if(feedLoaded){
+      searchFeedForGroup(g.id);
+    } else {
+      const resultsEl = document.getElementById('groupSearchResults-' + g.id);
+      if(resultsEl) resultsEl.innerHTML = `<div class="empty-note"><i class="bi bi-info-circle"></i> Carregue o feed acima para buscar produtos dessas marcas.</div>`;
+    }
   });
 }
 
-// ---- group detail (right column) ----
-function selectGroup(id){
-  activeGroupId = id;
-  renderGroupsList();
-  renderGroupDetail();
-}
-
-function getActiveGroup(){
-  return groups.find(g => g.id === activeGroupId);
-}
-
-function renderGroupDetail(){
-  const host = document.getElementById('groupDetail');
-  const group = getActiveGroup();
-  if(!group){
-    host.innerHTML = `
-      <div class="empty-state">
-        <i class="bi bi-collection"></i>
-        <p>Crie ou selecione um agrupamento à esquerda para associar produtos do feed</p>
-      </div>`;
-    return;
-  }
-
-  host.innerHTML = `
-    <div class="group-detail-head">
-      <div>
-        <h3>${escapeHtml(group.nome)}</h3>
-        <div class="marcas-chips" id="groupMarcasChips"></div>
-      </div>
-      <button type="button" class="btn btn-brand btn-sm" onclick="searchFeedForGroup()">
-        <i class="bi bi-search"></i> Buscar produtos no feed
-      </button>
-    </div>
-    <div id="groupSearchResults"></div>
-    <div class="section-divider">Produtos no agrupamento</div>
-    <div id="groupProductsTable"></div>
-  `;
-
-  const chipState = { marcas: group.marcas };
-  renderTagChips(chipState, 'groupMarcasChips');
-  document.getElementById('groupMarcasChips').addEventListener('click', () => { group.marcas = chipState.marcas; });
-
-  renderGroupProductsTable();
-
-  if(feedLoaded){
-    searchFeedForGroup();
-  } else {
-    document.getElementById('groupSearchResults').innerHTML =
-      `<div class="empty-note"><i class="bi bi-info-circle"></i> Carregue o feed acima para buscar produtos dessas marcas.</div>`;
-  }
-}
-
 // ---- feed loading & parsing (Google Merchant / Atom) ----
-// parses the Google Merchant / Atom XML text into our product list shape
 function parseFeedXml(text){
   const xml = new DOMParser().parseFromString(text, 'text/xml');
   if(xml.querySelector('parsererror')) throw new Error('XML inválido');
@@ -1669,7 +1636,7 @@ function applyLoadedFeed(items){
   document.getElementById('feedError').classList.add('d-none');
   const btn = document.getElementById('feedLoadBtn');
   btn.innerHTML = '<i class="bi bi-arrow-repeat"></i> Recarregar feed';
-  if(activeGroupId) searchFeedForGroup();
+  groups.filter(g => g.expanded).forEach(g => searchFeedForGroup(g.id));
 }
 
 // public CORS-proxy mirrors used only as a fallback when the direct fetch is blocked
@@ -1690,7 +1657,6 @@ async function loadFeed(){
   status.textContent = 'Conectando direto ao servidor…';
   status.className = 'feed-status loading';
 
-  // attempt 1: direct fetch
   try{
     const res = await fetch(FEED_URL);
     if(!res.ok) throw new Error('HTTP ' + res.status);
@@ -1703,7 +1669,6 @@ async function loadFeed(){
     console.warn('Conexão direta falhou (provável CORS), tentando via proxy…', err);
   }
 
-  // attempts 2+: known public CORS-proxy mirrors, tried in order
   for(let i = 0; i < CORS_PROXIES.length; i++){
     status.textContent = `Direto bloqueado — tentando via proxy (${i + 1}/${CORS_PROXIES.length})…`;
     try{
@@ -1720,8 +1685,7 @@ async function loadFeed(){
     }
   }
 
-  // every attempt failed
-  status.textContent = 'Falha ao carregar (tente importar o arquivo abaixo)';
+  status.textContent = 'Falha ao carregar';
   status.className = 'feed-status';
   errorBox.classList.remove('d-none');
   btn.innerHTML = '<i class="bi bi-download"></i> Tentar novamente';
@@ -1729,39 +1693,10 @@ async function loadFeed(){
   btn.disabled = false;
 }
 
-// alternative that sidesteps CORS entirely: read a locally saved copy of the XML
-function loadFeedFromFile(event){
-  const file = event.target.files[0];
-  if(!file) return;
-  const status = document.getElementById('feedStatus');
-  const errorBox = document.getElementById('feedError');
-  status.textContent = 'Lendo arquivo…';
-  status.className = 'feed-status loading';
-
-  const reader = new FileReader();
-  reader.onload = () => {
-    try{
-      applyLoadedFeed(parseFeedXml(reader.result));
-    } catch(err){
-      console.error('Erro ao ler arquivo do feed:', err);
-      status.textContent = 'Falha ao ler o arquivo';
-      status.className = 'feed-status';
-      errorBox.classList.remove('d-none');
-      errorBox.querySelector('div div').textContent = 'O arquivo selecionado não parece ser um XML de feed válido.';
-    }
-  };
-  reader.onerror = () => {
-    status.textContent = 'Falha ao ler o arquivo';
-    status.className = 'feed-status';
-  };
-  reader.readAsText(file, 'utf-8');
-  event.target.value = '';
-}
-
-// ---- search matches for the active group's brands ----
-function searchFeedForGroup(){
-  const group = getActiveGroup();
-  const resultsEl = document.getElementById('groupSearchResults');
+// ---- search matches for a group's brands ----
+function searchFeedForGroup(id){
+  const group = getGroupById(id);
+  const resultsEl = document.getElementById('groupSearchResults-' + id);
   if(!group || !resultsEl) return;
 
   if(!feedLoaded){
@@ -1808,15 +1743,15 @@ function searchFeedForGroup(){
         <tbody>${rows}</tbody>
       </table>
     </div>
-    <button type="button" class="btn btn-brand btn-sm mt-2" onclick="addSelectedToGroup()">
+    <button type="button" class="btn btn-brand btn-sm mt-2" onclick="addSelectedToGroup(${id})">
       <i class="bi bi-plus-lg"></i> Adicionar selecionados ao agrupamento
     </button>`;
 }
 
-function addSelectedToGroup(){
-  const group = getActiveGroup();
+function addSelectedToGroup(id){
+  const group = getGroupById(id);
   if(!group) return;
-  const rows = document.querySelectorAll('#groupSearchResults tr[data-prod-id]');
+  const rows = document.querySelectorAll(`#groupSearchResults-${id} tr[data-prod-id]`);
   let added = 0, missingTipo = 0;
   rows.forEach(row => {
     const check = row.querySelector('.prod-check');
@@ -1824,8 +1759,8 @@ function addSelectedToGroup(){
     const tipoSelect = row.querySelector('.tipo-select');
     const tipo = tipoSelect.value;
     if(!tipo){ missingTipo++; tipoSelect.classList.add('is-invalid'); return; }
-    const id = row.dataset.prodId;
-    const prod = feedProducts.find(p => p.id === id);
+    const prodId = row.dataset.prodId;
+    const prod = feedProducts.find(p => p.id === prodId);
     if(!prod) return;
     group.produtos.push({ id: prod.id, title: prod.title, brand: prod.brand, price: prod.price, tipo });
     added++;
@@ -1834,19 +1769,26 @@ function addSelectedToGroup(){
     alert(`Selecione o tipo de royalty (FOB/Venda/Compra) para ${missingTipo} produto(s) marcado(s).`);
   }
   if(added){
-    renderGroupProductsTable();
-    renderGroupsList();
-    searchFeedForGroup();
+    renderGroupProductsTableFor(id);
+    updateGroupHeaderMeta(id);
+    searchFeedForGroup(id);
   }
 }
 
-function removeProductFromGroup(prodId){
-  const group = getActiveGroup();
+function removeProductFromGroup(groupId, prodId){
+  const group = getGroupById(groupId);
   if(!group) return;
   group.produtos = group.produtos.filter(p => p.id !== prodId);
-  renderGroupProductsTable();
-  renderGroupsList();
-  searchFeedForGroup();
+  renderGroupProductsTableFor(groupId);
+  updateGroupHeaderMeta(groupId);
+  searchFeedForGroup(groupId);
+}
+
+function updateGroupHeaderMeta(id){
+  const g = getGroupById(id);
+  if(!g) return;
+  const metaEl = document.querySelector(`.acc-item[data-group-id="${id}"] .acc-meta`);
+  if(metaEl) metaEl.textContent = `${g.marcas.length} marca(s) · ${g.produtos.length} produto(s)`;
 }
 
 // pulls the current % straight from the Seção 1 subsection fields (FOB / Compra / Venda)
@@ -1857,9 +1799,9 @@ function currentPercentByTipo(tipo){
   return val ? val + '%' : null;
 }
 
-function renderGroupProductsTable(){
-  const group = getActiveGroup();
-  const host = document.getElementById('groupProductsTable');
+function renderGroupProductsTableFor(id){
+  const group = getGroupById(id);
+  const host = document.getElementById('groupProductsTable-' + id);
   if(!host) return;
   if(!group || group.produtos.length === 0){
     host.innerHTML = '<div class="empty-note">Nenhum produto incluído neste agrupamento ainda</div>';
@@ -1874,7 +1816,7 @@ function renderGroupProductsTable(){
         <td class="prod-brand">${escapeHtml(p.brand)}</td>
         <td>${tipoLabel[p.tipo]}</td>
         <td class="${pct ? 'pct-applied' : 'pct-applied muted'}">${pct || 'defina o % na Seção 1'}</td>
-        <td><button type="button" class="remove-prod" onclick="removeProductFromGroup('${p.id}')" title="Remover"><i class="bi bi-x-lg"></i></button></td>
+        <td><button type="button" class="remove-prod" onclick="removeProductFromGroup(${id}, '${p.id}')" title="Remover"><i class="bi bi-x-lg"></i></button></td>
       </tr>`;
   }).join('');
 
@@ -1893,6 +1835,7 @@ function formatFeedPrice(raw){
   if(isNaN(num)) return raw;
   return 'R$ ' + toBRL(num);
 }
+
 
 // ---------- form submit ----------
 document.getElementById('mgForm').addEventListener('submit', function(e){
